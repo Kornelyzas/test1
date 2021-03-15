@@ -6,19 +6,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class Test1 {
 
     public static final String SEARCH_BUTTON_BY_XPATH = "//*[@id=\"sb_form_q\"]";
+    public static WebDriver browser;
 
-
-    public static void main(String[] args) {
-        System.out.println("Selenium");
-
+    public static void setup(){
         System.setProperty("webdriver.chrome.driver",
                 "webdriver/chromedriver89.exe");
 
-        WebDriver browser = new ChromeDriver();
+        browser = new ChromeDriver();
         browser.get("Https://Bing.com/");
+    }
 
+    public static  void searchByWord(String word){
         WebElement searchInput = browser.findElement(By.id("sb_form_q"));
-        searchInput.sendKeys("Ponas Baranauskas");
+        searchInput.sendKeys("Antanas Baranauskas");
 //        searchInput.sendKeys(Keys.ENTER);
         WebElement formGo = browser.findElement(By.id("sb_form_go"));
 //        formGo.click();
@@ -36,17 +36,26 @@ public class Test1 {
 //        WebDriverWait webDriverWait = new WebDriverWait(browser, 2);
 //        webDriverWait.until(ExpectedConditions.elementToBeClickable(By.xpath(SEARCH_BUTTON_BY_XPATH)));
 //        formGo.click();
+    }
 
+    public static int compareResults(){
         WebElement sbCount = browser.findElement(By.xpath("//*[@id=\"b_tween\"]/span"));
         String searchResults = sbCount.getText().replaceAll("[a-zA-Z]", "").replaceAll("[, ]", "");
         int searchRes = Integer.parseInt(searchResults);
         System.out.println(searchRes);
 
-        if (searchRes < 50000) {
-            System.out.println("Ponas Baranauskas nera toks populiarus");
-        } else {
-            System.out.println("Ponas yra populiarus");
-        }
+        return searchRes;
+    }
+
+    public static void close(){
+        browser.close();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Selenium + JUnit");
+        setup();
+        searchByWord("Antanas Baranauskas");
+        compareResults();
     }
 
 }
