@@ -1,29 +1,29 @@
-import org.junit.After;
+import javafx.scene.layout.Priority;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 
 public class Test1Test {
-    @Before
+
+    @BeforeTest
     public void setup(){
         Test1.setup();
     }
-    @Test
-    @Order(1)
+
+    @Test(priority = 1, groups = "searchTests")
     public void searchByWord(){
         Test1.searchByWord("Antanas Baranauskas");
         compareResultsTest();
     }
+
     public void compareResultsTest(){
         int results = Test1.compareResults();
-        Assert.assertEquals(32700, results);
+        Assert.assertEquals(32200, results);
     }
-    @After
+
+    @AfterTest
     public void close(){
         Test1.close();
     }
